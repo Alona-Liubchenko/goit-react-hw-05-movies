@@ -18,3 +18,12 @@ export const trendingToDay = async () => {
   //       return response.data;
   //     });
 };
+export const movieDetails = async movieId => {
+  console.log(movieId);
+  const response = await axios.get(
+    `movie/${movieId}?api_key=${API_KEY}&language=en-US`
+  );
+  console.log(response.data);
+  return response.data;
+};
+// https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
