@@ -10,13 +10,8 @@ export const trendingToDay = async () => {
   const response = await axios.get(
     `trending/${media_type}/${time_window}?api_key=${API_KEY}`
   );
+  console.log();
   return response.data;
-  //   await axios
-  //     .get(`trending/${media_type}/${time_window}?api_key=${API_KEY}`)
-  //     .then(function (response) {
-  //       console.log(response.data);
-  //       return response.data;
-  //     });
 };
 export const movieDetails = async movieId => {
   console.log(movieId);
@@ -27,3 +22,13 @@ export const movieDetails = async movieId => {
   return response.data;
 };
 // https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
+
+// https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
+export const searchMovies = async value => {
+  console.log(value);
+  const response = await axios.get(
+    `search=${value}/movie/?api_key=${API_KEY}&language=en-US&page=1&include_adult=false`
+  );
+
+  return response.data;
+};
