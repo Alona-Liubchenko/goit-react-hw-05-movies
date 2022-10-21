@@ -1,6 +1,22 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import * as API from 'components/servises/api';
 
-export const Home = ({ movies }) => {
+export const Home = () => {
+  const [movies, setMovies] = useState([]);
+  //  const location = useLocation();
+  useEffect(() => {
+    async function fechTrending() {
+      try {
+        const items = await API.trendingToDay();
+        setMovies(items.results);
+        console.log(items.results);
+      } catch {
+        console.log('error');
+      }
+    }
+    fechTrending();
+  }, []);
   console.log(movies);
   return (
     <div>

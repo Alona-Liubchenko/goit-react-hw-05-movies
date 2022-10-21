@@ -1,31 +1,50 @@
-import { Outlet, Link, useSearchParams } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import * as API from 'components/servises/api';
 import { useState, useEffect } from 'react';
+
 export const Movies = () => {
   const [films, setFilms] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  //  const location = useLocation();
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
-    async function fechM(value) {
-      try {
-        const items = await API.searchMovies(value);
-        setFilms(items.results);
-        console.log(items.results);
-      } catch {
-        console.log('error');
+    if (query.trim() !== '') {
+      async function fechM() {
+        try {
+          const items = await API.searchMovies(query);
+          setFilms(items.results);
+          console.log(items.results);
+        } catch {
+          console.log('error');
+        }
       }
+      fechM();
     }
-    fechM();
-  }, []);
-  const onChange = value => {
-    console.log(value);
-    setSearchParams({ search: value });
+  }, [query]);
+
+  const hendleNameChange = e => {
+    setQuery(e.currentTarget.value.toLowerCase());
+  };
+  // const hendleFormSubmit = query => {
+  //   setQuery(query);
+  //   // setPage(1);
+  //   // setImages([]);
+  //   console.log(query);
+  // };
+  const hendleSubmit = e => {
+    e.preventDefault();
+    if (query.trim() === '') {
+      alert('Enter the search query');
+      return;
+    }
+    setQuery(query);
+    console.log(query);
+    setQuery(' ');
   };
   return (
     <div>
       <div>
-        <form>
-          <input type="text" onChange={e => onChange(e.target.value)}></input>
+        <form onSubmit={hendleSubmit}>
+          <input type="text" onChange={hendleNameChange} value={query}></input>
           <button type="submit">Search</button>
         </form>
       </div>

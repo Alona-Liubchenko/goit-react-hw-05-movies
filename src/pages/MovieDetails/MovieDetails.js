@@ -6,7 +6,7 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
   console.log(movieId);
   const [details, setDetails] = useState(null);
-  // const location = useLocation();
+
   useEffect(() => {
     async function fechD() {
       try {
@@ -24,7 +24,7 @@ export const MovieDetails = () => {
     return null;
   }
   console.log(details.poster_path);
-  // const location = useLocation();
+
   return (
     <div>
       <button type="button">Go back</button>

@@ -24,11 +24,11 @@ export const movieDetails = async movieId => {
 // https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
 
 // https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
-export const searchMovies = async value => {
-  console.log(value);
+export const searchMovies = async query => {
+  console.log(query);
   const response = await axios.get(
-    `search=${value}/movie/?api_key=${API_KEY}&language=en-US&page=1&include_adult=false`
+    `search/movie/?api_key=${API_KEY}&query=${query}&language=en-US&page=1&include_adult=false`
   );
-
+  console.log(response.data);
   return response.data;
 };
