@@ -24,10 +24,10 @@ export const movieDetails = async movieId => {
 // https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
 
 // https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
-export const searchMovies = async query => {
-  console.log(query);
+export const searchMovies = async search => {
+  console.log(search);
   const response = await axios.get(
-    `search/movie/?api_key=${API_KEY}&query=${query}&language=en-US&page=1&include_adult=false`
+    `search/movie/?api_key=${API_KEY}&query=${search}&language=en-US&page=1&include_adult=false`
   );
   console.log(response.data);
   return response.data;
