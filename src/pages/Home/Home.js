@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as API from 'components/servises/api';
 
 export const Home = () => {
+  const location = useLocation();
   const [movies, setMovies] = useState([]);
-  //  const location = useLocation();
+
   useEffect(() => {
     async function fechTrending() {
       try {
@@ -17,6 +18,9 @@ export const Home = () => {
     }
     fechTrending();
   }, []);
+  if (!movies) {
+    return;
+  }
   console.log(movies);
   return (
     <div>
@@ -24,7 +28,9 @@ export const Home = () => {
       <ul>
         {movies.map(movie => (
           <li key={movie.id}>
-            <Link to={`movies/${movie.id}`}>{movie.title}</Link>
+            <Link to={`movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </Link>
           </li>
         ))}
       </ul>

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useLocation, Outlet } from 'react-router-dom';
 import * as API from 'components/servises/api';
 import { useState, useEffect } from 'react';
 
@@ -6,6 +6,7 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
   console.log(movieId);
   const [details, setDetails] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     async function fechD() {
@@ -24,10 +25,11 @@ export const MovieDetails = () => {
     return null;
   }
   console.log(details.poster_path);
-
+  console.log(location);
+  const baskLinkHref = location.state?.from ?? '/';
   return (
     <div>
-      <button type="button">Go back</button>
+      <Link to={baskLinkHref}>Go back</Link>
       <div>
         <img
           src={`https://image.tmdb.org/t/p/w500${details.backdrop_path}`}
@@ -48,6 +50,17 @@ export const MovieDetails = () => {
           ))}
         </ul>
       </div>
+      <div>
+        <ul>
+          <li>
+            <Link to="cast">Cast</Link>
+          </li>
+          <li>
+            <Link to="reviews">Reviews</Link>
+          </li>
+        </ul>
+      </div>
+      <Outlet />
     </div>
   );
 };

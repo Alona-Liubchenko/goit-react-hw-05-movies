@@ -1,12 +1,13 @@
-import { Outlet, Link, useSearchParams } from 'react-router-dom';
+import { Outlet, Link, useSearchParams, useLocation } from 'react-router-dom';
 import * as API from 'components/servises/api';
 import { useState, useEffect } from 'react';
 
 export const Movies = () => {
+  const location = useLocation();
   const [films, setFilms] = useState([]);
   const [query, setQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get('search') ?? '';
+  const search = searchParams.get('query') ?? '';
   console.log(search);
   useEffect(() => {
     if (search !== '') {
@@ -22,6 +23,9 @@ export const Movies = () => {
       fechM();
     }
   }, [search]);
+  // if (!query) {
+  //   return null;
+  // }
 
   const hendleNameChange = e => {
     setQuery(e.target.value.toLowerCase());
@@ -34,13 +38,15 @@ export const Movies = () => {
   // };
   const hendleSubmit = e => {
     e.preventDefault();
-    if (query.trim() === '') {
-      alert('Enter the search query');
-      return;
-    }
-    // setQuery(query);
+    // if (query.trim() === '') {
+    //   alert('Enter the search query');
+    //   return;
+    // }
 
-    setSearchParams(query !== '' ? { search: query } : '');
+    setQuery(query);
+    // const { value } = search;
+    // console.log(value);
+    setSearchParams(query !== '' ? { query: query } : '');
     console.log(query);
   };
   return (
@@ -59,7 +65,9 @@ export const Movies = () => {
       <ul>
         {films.map(film => (
           <li key={film.id}>
-            <Link to={`${film.id}`}>{film.title}</Link>
+            <Link to={`${film.id}`} state={{ from: location }}>
+              {film.title}
+            </Link>
           </li>
         ))}
       </ul>
