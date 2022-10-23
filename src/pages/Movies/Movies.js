@@ -8,14 +8,13 @@ export const Movies = () => {
   const [query, setQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('query') ?? '';
-  console.log(search);
+
   useEffect(() => {
     if (search !== '') {
       async function fechM() {
         try {
           const items = await API.searchMovies(search);
           setFilms(items.results);
-          console.log(items.results);
         } catch {
           console.log('error');
         }
@@ -23,9 +22,10 @@ export const Movies = () => {
       fechM();
     }
   }, [search]);
-  // if (!query) {
-  //   return null;
-  // }
+
+  if (!films) {
+    return null;
+  }
 
   const hendleNameChange = e => {
     setQuery(e.target.value.toLowerCase());
@@ -38,16 +38,12 @@ export const Movies = () => {
   // };
   const hendleSubmit = e => {
     e.preventDefault();
-    // if (query.trim() === '') {
-    //   alert('Enter the search query');
-    //   return;
-    // }
-
+    if (query.trim() === '') {
+      alert('Enter the search query');
+      return;
+    }
     setQuery(query);
-    // const { value } = search;
-    // console.log(value);
     setSearchParams(query !== '' ? { query: query } : '');
-    console.log(query);
   };
   return (
     <div>

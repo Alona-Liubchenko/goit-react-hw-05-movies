@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import * as API from 'components/servises/api';
+
 export const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
@@ -9,7 +10,6 @@ export const Reviews = () => {
       try {
         const items = await API.searchReviews(movieId);
         setReviews(items.results);
-        console.log(items.results);
       } catch {
         console.log('error');
       }

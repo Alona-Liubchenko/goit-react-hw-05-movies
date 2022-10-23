@@ -1,39 +1,51 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as API from 'components/servises/api';
+import {
+  Box,
+  Title,
+  MovieList,
+  Item,
+  Link,
+  Image,
+  MovieTitle,
+} from './Home.styled';
 
 export const Home = () => {
   const location = useLocation();
   const [movies, setMovies] = useState([]);
-
+  console.log(movies);
   useEffect(() => {
     async function fechTrending() {
       try {
         const items = await API.trendingToDay();
         setMovies(items.results);
-        console.log(items.results);
       } catch {
         console.log('error');
       }
     }
     fechTrending();
   }, []);
+
   if (!movies) {
     return;
   }
-  console.log(movies);
   return (
-    <div>
-      <h1>Trending today</h1>
-      <ul>
+    <Box>
+      <Title>Trending today</Title>
+      <MovieList>
         {movies.map(movie => (
-          <li key={movie.id}>
+          <Item key={movie.id}>
             <Link to={`movies/${movie.id}`} state={{ from: location }}>
-              {movie.title}
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt=""
+              />
+              <MovieTitle>{movie.title}</MovieTitle>
             </Link>
-          </li>
+          </Item>
         ))}
-      </ul>
-    </div>
+      </MovieList>
+    </Box>
   );
 };

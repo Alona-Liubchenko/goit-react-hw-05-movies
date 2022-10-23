@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import * as API from 'components/servises/api';
 import { useParams } from 'react-router-dom';
+
 export const Cast = () => {
   const { movieId } = useParams();
-  console.log(movieId);
   const [cast, setCast] = useState(null);
-  console.log(cast);
+
   useEffect(() => {
     async function fechCast() {
       try {
         const items = await API.searchCast(movieId);
         setCast(items.cast);
-        console.log(items.cast);
       } catch {
         console.log('error');
       }
