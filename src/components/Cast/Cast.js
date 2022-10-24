@@ -21,6 +21,9 @@ const Cast = () => {
   if (!cast) {
     return null;
   }
+  if (cast.length === 0) {
+    return <p> We don't have cast for this movie</p>;
+  }
   return (
     <div>
       <CastList>
