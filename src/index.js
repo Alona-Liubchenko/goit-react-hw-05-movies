@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from 'components/App';
 import './index.css';
+import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'theme';
 
@@ -15,3 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 );
+
+ThemeProvider.propTypes = {
+  theme: PropTypes.object.isRequired,
+};

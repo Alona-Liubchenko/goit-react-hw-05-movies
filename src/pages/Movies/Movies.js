@@ -1,8 +1,20 @@
-import { Outlet, Link, useSearchParams, useLocation } from 'react-router-dom';
+import { Outlet, useSearchParams, useLocation } from 'react-router-dom';
 import * as API from 'components/servises/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import {
+  Form,
+  Input,
+  Button,
+  Searchbar,
+  MovieList,
+  Item,
+  Link,
+  MovieTitle,
+  Image,
+} from './Movies.styled';
+import { BiSearchAlt } from 'react-icons/bi';
 
-export const Movies = () => {
+const Movies = () => {
   const location = useLocation();
   const [films, setFilms] = useState([]);
   const [query, setQuery] = useState('');
@@ -11,7 +23,7 @@ export const Movies = () => {
 
   useEffect(() => {
     if (search !== '') {
-      async function fechM() {
+      async function fechMovies() {
         try {
           const items = await API.searchMovies(search);
           setFilms(items.results);
@@ -19,7 +31,7 @@ export const Movies = () => {
           console.log('error');
         }
       }
-      fechM();
+      fechMovies();
     }
   }, [search]);
 
@@ -43,31 +55,45 @@ export const Movies = () => {
       return;
     }
     setQuery(query);
+
     setSearchParams(query !== '' ? { query: query } : '');
   };
   return (
     <div>
-      <div>
-        <form onSubmit={hendleSubmit}>
-          <input
+      <Searchbar>
+        <Form onSubmit={hendleSubmit}>
+          <Input
             type="text"
             onChange={hendleNameChange}
             name={search}
             value={query}
-          ></input>
-          <button type="submit">Search</button>
-        </form>
+            placeholder={'Please enter a movie title'}
+          ></Input>
+          <Button type="submit">
+            <BiSearchAlt size="25px" />
+          </Button>
+        </Form>
+      </Searchbar>
+      <div>
+        <MovieList>
+          {films.map(film => (
+            <Item key={film.id}>
+              <Link to={`${film.id}`} state={{ from: location }}>
+                <Image
+                  src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+                  alt=""
+                />
+                <MovieTitle>{film.title}</MovieTitle>
+              </Link>
+            </Item>
+          ))}
+        </MovieList>
       </div>
-      <ul>
-        {films.map(film => (
-          <li key={film.id}>
-            <Link to={`${film.id}`} state={{ from: location }}>
-              {film.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
+
+export default Movies;

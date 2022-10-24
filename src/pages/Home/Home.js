@@ -11,10 +11,10 @@ import {
   MovieTitle,
 } from './Home.styled';
 
-export const Home = () => {
+const Home = () => {
   const location = useLocation();
   const [movies, setMovies] = useState([]);
-  console.log(movies);
+
   useEffect(() => {
     async function fechTrending() {
       try {
@@ -49,3 +49,4 @@ export const Home = () => {
     </Box>
   );
 };
+export default Home;
