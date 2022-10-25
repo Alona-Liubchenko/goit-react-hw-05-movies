@@ -70,12 +70,12 @@ const MovieDetails = () => {
         <DetailsTitle>Additional information</DetailsTitle>
         <List>
           <li>
-            <Link to="cast" state={{ from: location.state.from }}>
+            <Link to="cast" state={{ from: location.state?.from }}>
               Cast
             </Link>
           </li>
           <li>
-            <Link to="reviews" state={{ from: location.state.from }}>
+            <Link to="reviews" state={{ from: location.state?.from }}>
               Reviews
             </Link>
           </li>
